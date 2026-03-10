@@ -4,24 +4,29 @@ const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
 
 const client = new Client({
-authStrategy: new LocalAuth({
-clientId: "diario-bot"
-}),
-puppeteer: {
-executablePath: puppeteer.executablePath(),
-headless: true,
-args: [
-"--no-sandbox",
-"--disable-setuid-sandbox",
-"--disable-dev-shm-usage",
-"--disable-accelerated-2d-canvas",
-"--no-first-run",
-"--no-zygote",
-"--single-process",
-"--disable-gpu"
-]
-}
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process'
+        ]
+    }
 })
+
+client.on('qr', qr => {
+    qrcode.generate(qr, { small: true })
+})
+
+client.on('ready', () => {
+    console.log('BOT ONLINE')
+})
+
+client.initialize()
 
 const GRUPO_ADMIN = "120363424636007004@g.us"
 const GRUPO_ORG = "120363422664362515@g.us"
