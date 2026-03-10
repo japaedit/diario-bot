@@ -4,7 +4,13 @@ const qrcode = require('qrcode-terminal')
 const client = new Client({
 authStrategy: new LocalAuth({
 clientId: "diario-bot"
-})
+}),
+puppeteer: {
+args: [
+"--no-sandbox",
+"--disable-setuid-sandbox"
+]
+}
 })
 
 const GRUPO_ADMIN = "120363424636007004@g.us"
