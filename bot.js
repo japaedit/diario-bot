@@ -1,3 +1,4 @@
+const puppeteer = require("puppeteer")
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
 
@@ -6,6 +7,7 @@ authStrategy: new LocalAuth({
 clientId: "diario-bot"
 }),
 puppeteer: {
+executablePath: puppeteer.executablePath(),
 headless: true,
 args: [
 "--no-sandbox",
