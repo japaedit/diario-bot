@@ -1,5 +1,3 @@
-const QRCode = require('qrcode')
-const puppeteer = require("puppeteer")
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
 
