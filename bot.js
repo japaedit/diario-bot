@@ -3,10 +3,9 @@ const qrcode = require('qrcode-terminal')
 
 const client = new Client({
     authStrategy: new LocalAuth({
-        clientId: "diario-bot"
+        dataPath: './session'
     }),
     puppeteer: {
-        executablePath: '/usr/bin/chromium',
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -20,11 +19,12 @@ const client = new Client({
 })
 
 client.on('qr', qr => {
+    console.log("ESCANEIE O QR CODE:")
     qrcode.generate(qr, { small: true })
 })
 
 client.on('ready', () => {
-    console.log('BOT ONLINE')
+    console.log('BOT ONLINE 🚀')
 })
 
 client.initialize()
