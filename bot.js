@@ -1,3 +1,4 @@
+const QRCode = require('qrcode')
 const puppeteer = require("puppeteer")
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
@@ -34,8 +35,15 @@ let cadastro = {}
 let ranking = {}
 let vagasAbertas = true
 
-client.on('qr', qr => {
-qrcode.generate(qr,{small:true})
+client.on('qr', async (qr) => {
+
+console.log("QR RECEBIDO")
+
+const url = await QRCode.toDataURL(qr)
+
+console.log("LINK DO QR:")
+console.log(url)
+
 })
 
 client.on('ready', () => {
