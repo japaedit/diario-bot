@@ -1,11 +1,23 @@
+const fs = require('fs')
+const path = require('path')
 const { Client, LocalAuth } = require('whatsapp-web.js')
 const qrcode = require('qrcode-terminal')
 
+// ✅ Remove possíveis arquivos de lock que causam
+// "The browser is already running for userDataDir"
+const authPath = path.join(__dirname, '.wwebjs_auth')
+const lockPath = path.join(authPath, 'SingletonLock')
+
+if (fs.existsSync(lockPath)) {
+    fs.unlinkSync(lockPath)
+}
+
 const client = new Client({
     authStrategy: new LocalAuth({
-        dataPath: './session'
+        dataPath: authPath
     }),
     puppeteer: {
+        headless: true,
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -25,6 +37,18 @@ client.on('qr', qr => {
 
 client.on('ready', () => {
     console.log('BOT ONLINE 🚀')
+})
+
+client.on('auth_failure', msg => {
+    console.error('FALHA NA AUTENTICAÇÃO:', msg)
+})
+
+client.on('disconnected', reason => {
+    console.log('BOT DESCONECTADO:', reason)
+})
+
+client.initialize().catch(err => {
+    console.error('ERRO AO INICIAR:', err)
 })
 
 client.initialize()
